@@ -1,0 +1,28 @@
+@value colors: "../constants/colors.module.css";
+@value bg-action from colors;
+
+.button {
+  border: none;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.size_default {
+	background-color: bg-action;
+}
+
+.size_small {}
+
+.variant_primary {
+	background-color: ;
+}
+.variant_secondary {}
+
+.button:disabled {
+	cursor: default;
+	pointer-events: none;
+	background-color: ;
+}

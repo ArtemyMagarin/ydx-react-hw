@@ -1,0 +1,14 @@
+@value colors: "../../constants/colors.module.css";
+@value blue-grey-500 from colors;
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 10px;
+}
+
+.pageTitle {
+  color: blue-grey-500;
+  font-size: 1.5rem;
+  margin: 0 0 18px;
+}

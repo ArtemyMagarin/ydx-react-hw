@@ -1,0 +1,14 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  justify-content: center;
+  align-items: center;
+  flex: 1 1 0;
+}
+
+.text {
+  margin: 8px 0 0 0;
+  font-size: 0.875rem;
+  text-align: center;
+}

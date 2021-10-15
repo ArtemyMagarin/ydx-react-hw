@@ -1,0 +1,22 @@
+@value colors: "../../constants/colors.module.css";
+@value red-500 from colors;
+
+.wrapper + .wrapper {
+  margin-top: 18px;
+}
+
+.formControl {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.label {
+  font-size: 0.875rem;
+  line-height: 1.14;
+}
+
+.label.required::after {
+  content: " *";
+  color: red-500;
+}

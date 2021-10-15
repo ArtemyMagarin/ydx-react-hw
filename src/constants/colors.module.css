@@ -1,1 +1,17 @@
+@value bg-base: #FFFFFF;
+@value bg-heavy: #D9D9D9;
 @value bg-action: #ffcc00;
+@value bg-action-hovered: #f2c200;
+@value bg-control: #E6E6E6;
+@value bg-control-hovered: #DBDBDB;
+@value bg-disabled: #F2F2F2;
+@value border-action-focused: #B38F00;
+@value border-control-focused: #B3B3B3;
+@value text: #000000;
+@value text-disabled: #7F7F7F;
+@value border-focused: #B3B3B3;
+@value blue-grey-50: #F0F2F3;
+@value blue-grey-500: #7F8285;
+@value red-500: #FF3333;
+@value blue-grey-500: #7F8285;
+@value red-600: #E00000;

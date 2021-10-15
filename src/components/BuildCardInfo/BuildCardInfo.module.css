@@ -1,0 +1,140 @@
+.wrapper {
+  display: grid;
+  gap: 8px;
+  grid-template-columns: 22px auto 124px;
+}
+
+.icon {
+  width: 22px;
+  height: 22px;
+  background-size: 100%;
+}
+
+.icon.success {
+  background-image: url("../../icons/success.svg");
+}
+
+.icon.error {
+  background-image: url("../../icons/error.svg");
+}
+
+.icon.pending {
+  background-image: url("../../icons/pending.svg");
+}
+
+.data {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dataRow {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.commitInfo {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.id {
+  font-size: 1.125rem;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.id.success {
+  color: #00b341;
+}
+
+.id.error {
+  color: #f33;
+}
+
+.id.pending {
+  color: #ff9a00;
+}
+
+.title {
+  line-height: 20px;
+}
+
+.branch,
+.commit,
+.author,
+.date,
+.duration {
+  font-size: 0.875rem;
+}
+
+.branch,
+.author {
+  display: inline-flex;
+  align-items: center;
+}
+
+.branch::before,
+.author::before,
+.date::before,
+.duration::before {
+  width: 16px;
+  height: 16px;
+  content: "";
+  display: inline-flex;
+  margin-right: 4px;
+  background-size: 16px 16px;
+}
+
+.branch::before {
+  background-image: url("../../icons/commit.svg");
+}
+
+.author::before {
+  background-image: url("../../icons/user.svg");
+}
+
+.commit {
+  opacity: 0.65;
+}
+
+.timing {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.date,
+.duration {
+  display: flex;
+}
+
+.date::before {
+  background-image: url("../../icons/calendar.svg");
+}
+
+.duration::before {
+  background-image: url("../../icons/stopwatch.svg");
+}
+
+@media (max-width: 476px) {
+  .wrapper {
+    display: grid;
+    gap: 8px;
+    grid-template-columns: 22px auto;
+  }
+
+  .dataRow {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .timing {
+    grid-column: 2 / 2;
+    border-top: 1px solid #f0f2f3;
+    padding-top: 8px;
+    flex-direction: row;
+  }
+}

@@ -1,6 +1,9 @@
 import cn from "classnames/bind";
 import { useHistory } from "react-router-dom";
 import { useCallback, useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { AnyAction } from "redux";
 import { BuildCardInfo } from "../../components/BuildCardInfo";
 
 import { Button } from "../../components/Button";
@@ -14,6 +17,9 @@ import { RepoSettings } from "../../types/RepoSettings";
 import { Modal } from "../../components/Modal";
 import { Input } from "../../components/Input";
 import { BuildInfo } from "../../types/BuildInfo";
+import * as buildListActions from "../../reducers/buildsListReducer/buildsListActions";
+import { RootState } from "../../store";
+import { BuildsListState } from "../../reducers/buildsListReducer";
 import styles from "./BuildHistory.module.css";
 
 const cx = cn.bind(styles);
@@ -24,51 +30,46 @@ interface Props {
 
 export const BuildHistory: React.FC<Props> = ({ repoSettings }) => {
 	const history = useHistory();
-	const [showModal, setShowModal] = useState(false);
-	const [commitHash, setCommitHash] = useState('');
+	const dispatch = useDispatch<ThunkDispatch<RootState, any, AnyAction>>();
+	const { data, loading, hasMore } = useSelector<RootState, BuildsListState>(
+		(state) => state.buildsList
+	);
 
-	const [data, setData] = useState<BuildInfo[]>([]);
-	const [loading, setLoading] = useState(false);
-	const [hasMore, setHasMore] = useState(true);
+	const [showModal, setShowModal] = useState(false);
+	const [commitHash, setCommitHash] = useState("");
 
 	const loadMore = useCallback(() => {
-		setLoading(true);
-		setTimeout(() => {
-			let newData: BuildInfo[] = [];
-			setData((data) => {
-				newData = [
-					...data,
-					...buildHistory.slice(data.length, data.length + 4),
-				];
-				return [...newData];
-			});
-			setLoading(false);
-			setHasMore(newData.length < buildHistory.length);
-		}, Math.random() * 3000);
-	}, []);
+		const fromId = data.length ? data[data.length - 1].id : undefined;
+		dispatch(buildListActions.load(4, fromId));
+	}, [data, dispatch]);
 
-	useEffect(() => loadMore(), [loadMore]);
+	useEffect(() => {
+		loadMore();
+		return () => {
+			dispatch(buildListActions.clear());
+		};
+	}, []); // eslint-disable-line
 
 	useEffect(() => {
 		if (!showModal) {
-			setCommitHash('')
+			setCommitHash("");
 		}
-	}, [showModal])
+	}, [showModal]);
 
 	const onRunBuild = (e: React.FormEvent) => {
 		e.preventDefault();
-		buildHistory.unshift({
+		const item: BuildInfo = {
 			...buildHistory[0],
 			id: buildHistory[0].id + 1,
 			commit: commitHash.slice(0, 8),
-			status: 'pending',
+			status: "pending",
 			title: commitHash,
 			startDate: new Date(),
-			author: 'Cool Reviewer'
-		});
-		setData(buildHistory.slice(0, data.length + 1));
+			author: "Cool Reviewer",
+		};
+		dispatch(buildListActions.add(item));
 		setShowModal(false);
-	}
+	};
 
 	return (
 		<CommonPage>
@@ -126,14 +127,18 @@ export const BuildHistory: React.FC<Props> = ({ repoSettings }) => {
 						autoFocus
 						required
 						value={commitHash}
-						onChange={e => setCommitHash(e.target.value)}
+						onChange={(e) => setCommitHash(e.target.value)}
 						placeholder={"Commit hash"}
 						clearable
 						name="commitHash"
 					/>
 					<div className={cx("modalButtons")}>
 						<Button type="submit">Run build</Button>
-						<Button type="button" variant="outline" onClick={() => setShowModal(false)}>
+						<Button
+							type="button"
+							variant="outline"
+							onClick={() => setShowModal(false)}
+						>
 							Cancel
 						</Button>
 					</div>
